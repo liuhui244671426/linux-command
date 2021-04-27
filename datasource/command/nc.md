@@ -69,4 +69,11 @@ nc -vz acme-v02.api.letsencrypt.org 443 -w2
 # Ncat: 0 bytes sent, 0 bytes received in 0.07 seconds.
 ```
 
-<!-- Linux命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
+传文件
+```shsell
+###接受端
+nc -l port > your.file
+
+###发送端
+nc -w 1 ip port < your.file
+```

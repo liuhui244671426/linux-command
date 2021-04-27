@@ -141,7 +141,7 @@ var comm = require("linux-command");
 console.log("---->", comm.ls);
 
 var alias = require("linux-command/command/alias.md");
-console.log("---->", alias); // markdown string
+console.log("---->", alias); // datasource string
 ```
 
 你也可以通过 CDN 来访问索引数据，和对应的命令详细内容，我将更新内容定期发布版本，提供大家使用，[UNPKG](https://unpkg.com/linux-command/) 带上版本号，将锁定版本访问，删除版本号请求数据，将会自动重定向最新版本。

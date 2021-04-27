@@ -1,3 +1,6 @@
+/*
+* node build/build.js
+* */
 const path = require('path');
 const ejs = require('ejs');
 const FS = require('fs-extra');
@@ -56,7 +59,9 @@ marked.setOptions({
   }
 });
 
-const deployDir = path.resolve(process.cwd(), '.deploy');
+const deploy = 'command'; // command || algorithmic
+const dataSourceDir = 'datasource';//这里存 markdown 文件
+const deployDir = path.resolve(process.cwd(), 'public/'+deploy);//这里会生成 html
 const faviconPath = path.resolve(process.cwd(), 'template', 'img', 'favicon.ico');
 const rootIndexJSPath = path.resolve(process.cwd(), 'template', 'js', 'index.js');
 const dataJsonPath = path.resolve(process.cwd(), 'dist', 'data.json');
@@ -77,7 +82,7 @@ mkdirs(deployDir)
   .then((data) => {
     FS.outputFileSync(path.resolve(deployDir, 'js', 'index.js'), UglifyJS.minify(data.toString()).code)
   })
-  .then(dir => readMarkdownPaths(path.resolve(process.cwd(), 'command')))
+  .then(dir => readMarkdownPaths(path.resolve(process.cwd(), dataSourceDir+'/'+deploy)))
   .then(dirs => createDataJSON(dirs))
   .then(data => {
     FS.outputFileSync(dataJsonPath, JSON.stringify(data.json));
@@ -122,7 +127,7 @@ mkdirs(deployDir)
         path.resolve(process.cwd(), 'template', 'details.ejs'),
         path.resolve(deployDir, 'c', `${item.n}.html`),
         item,
-        path.resolve(process.cwd(), 'command'),
+        path.resolve(process.cwd(), dataSourceDir + '/' + deploy),
       );
     })
   })
@@ -216,13 +221,14 @@ function createTmpToHTML(fromPath, toPath, desJson, mdPath) {
       if (mdPath) {
         // CSS/JS 引用相对地址
         relative_path = '../';
+        //relative_path = deployDir+'/';
         mdPathName = `/command/${desJson.n}.md`;
       }
       // 生成 HTML
       let html = ejs.render(tmpStr.toString(), {
         filename: fromPath,
         relative_path, // 当前文件相对于根目录的相对路径
-        md_path: mdPathName || '',  // markdown 路径
+        md_path: mdPathName || '',  // datasource 路径
         current_path,   // 当前 html 路径
         describe: desJson ? desJson : {},   // 当前 md 的描述
       }, { filename: fromPath });

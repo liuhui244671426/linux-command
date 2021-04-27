@@ -9,7 +9,7 @@
     "dash": "npm run build && node build/dash.js"
   },
   "files": [
-    "command",
+    "datasource/command",
     "dist"
   ],
   "keywords": [

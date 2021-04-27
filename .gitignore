@@ -1,4 +1,7 @@
 node_modules
 .deploy
+public/
 npm-debug.log
 .DS_Store
+html/
+.idea/
