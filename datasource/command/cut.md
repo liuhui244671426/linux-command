@@ -157,4 +157,45 @@ efghijklmnopqrstuvwxyz
 efghijklmnopqrstuvwxyz
 ```
 
-<!-- Linux 命令行搜索引擎：https://jaywcjlove.github.io/linux-command/ -->
+### 精彩案例
+
+需求:按小时统计接口(/api/a)的访问次数
+
+文件:内容如下
+
+```text
+#filename access.irust.top
+irust.top 149.7.38.xx 30.001s - [10/Feb/2021:09:54:42 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom14y110
+irust.top 149.7.38.xx 30.002s - [10/Feb/2021:09:54:45 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom13t186
+irust.top 149.7.38.xx 30.000s - [10/Feb/2021:10:55:15 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom10y138
+irust.top 149.7.38.xx 30.002s - [10/Feb/2021:12:55:12 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom15t140
+....
+```
+cut 默认以空格为分隔符,所以时间段在第5段
+```shell script
+cut -d ' ' -f 5
+
+#output
+[10/Feb/2021:09:54:42
+[10/Feb/2021:09:54:45
+[10/Feb/2021:10:55:15
+[10/Feb/2021:12:55:12
+```
+再利用 cut 拆分时间段到小时
+```shell script
+cut -d ':' -f 2
+
+#output
+09
+09
+10
+12
+```
+以上合并成一句shell
+```shell script
+#按小时排序
+cat access.irust.top | cut -d ' ' -f 5|cut -d ':' -f 2|sort |uniq -c
+
+#按访问量排序
+cat access.irust.top | cut -d ' ' -f 5|cut -d ':' -f 2|sort |uniq -c|sort -nr
+```

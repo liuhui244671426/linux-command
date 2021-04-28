@@ -245,5 +245,18 @@ a
 b
 ```
 
+grep查看某时间段的日志
+
+```shell script
+#filename access.irust.top
+irust.top 149.7.38.xx 30.001s - [10/Feb/2021:09:54:42 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom14y110
+irust.top 149.7.38.xx 30.002s - [10/Feb/2021:09:54:45 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom13t186
+irust.top 149.7.38.xx 30.000s - [10/Feb/2021:10:55:15 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom10y138
+irust.top 149.7.38.xx 30.002s - [10/Feb/2021:12:55:12 +0800] "POST /api/a HTTP/1.1" 499 0 "-" - "SUP=- SUBP=-" "REQUEST_ID=-" "-" || Ali_Ecom15t140
+....
+```
+```
+grep '10/Feb/2021:0[0-9]' access.irust.top
+```
 
 
